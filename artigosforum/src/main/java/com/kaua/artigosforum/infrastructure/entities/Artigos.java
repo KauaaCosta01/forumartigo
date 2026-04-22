@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Artigos {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -28,5 +28,9 @@ public class Artigos {
 
     @Column(name = "create_at")
     private LocalDateTime createAt;
+
+    @ManyToOne
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Autor autor;
 
 }

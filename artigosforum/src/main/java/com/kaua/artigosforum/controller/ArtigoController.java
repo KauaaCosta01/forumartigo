@@ -28,7 +28,7 @@ public class ArtigoController {
         return ResponseEntity.ok(artigoService.buscarArtigoPorId(id));
     }
 
-    @PostMapping("/updateartigo")
+    @PutMapping("/updateartigo")
     public ResponseEntity<Void> updateArtigoPorId(@RequestParam UUID id, @RequestBody CreateArtigoDTO dto) {
         artigoService.updateArtigoPorId(id, dto);
         return ResponseEntity.ok().build();

@@ -1,6 +1,8 @@
 package com.kaua.artigosforum.business;
 
 import com.kaua.artigosforum.dto.CreateAutorDTO;
+import com.kaua.artigosforum.exception.BusinessException;
+import com.kaua.artigosforum.exception.ResourceNotFoundException;
 import com.kaua.artigosforum.infrastructure.entities.Autor;
 import com.kaua.artigosforum.infrastructure.repositories.AutorRepository;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,14 @@ public class AutorService {
 
     public Autor createAutor(CreateAutorDTO dto) {
         if (autorRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado");
         }
 
         Autor autor = Autor.builder()
                 .nome(dto.getNome())
-                .idade(Integer.parseInt(dto.getIdade()))
+                .idade((dto.getIdade()))
                 .email(dto.getEmail())
+                .telefone(dto.getTelefone())
                 .build();
 
         Autor saved = autorRepository.save(autor);
@@ -40,15 +43,16 @@ public class AutorService {
 
     public void updateAutorById(UUID id, CreateAutorDTO dto) {
         Autor autor = autorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Autor com o id" + id + "não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Autor com o id" + id + "não encontrado"));
 
         if (!autor.getEmail().equals(dto.getEmail()) && autorRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado");
         }
 
         autor.setNome(dto.getNome());
-        autor.setIdade(Integer.parseInt(dto.getIdade()));
+        autor.setIdade((dto.getIdade()));
         autor.setEmail(dto.getEmail());
+        autor.setTelefone(dto.getTelefone());
 
         autorRepository.save(autor);
     }

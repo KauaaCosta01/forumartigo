@@ -16,14 +16,14 @@ import java.util.UUID;
 public class Autor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false)
-    private int idade;
+    private Integer idade;
 
     @Column(nullable = false)
     private String email;
